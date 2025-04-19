@@ -1,0 +1,90 @@
+% !TEX TS-program = latexmk
+
+\documentclass{scrartcl}
+\usepackage[fancyproofs,fancytheorems,noindent]{juan}
+\usetikzlibrary{graphs, arrows.meta, positioning}
+
+
+\title{Álgebra Lineal}
+\author{Juan Yago}
+\date{28 de Abril de 2025}
+
+\begin{document}
+
+\textbf{Ejercicios Álgebra Lineal}
+
+Espacios Vectoriales y Transformaciones Lineales
+
+\section{Subespacios invariantes}%
+
+\begin{definition}[Subespacio invariante]
+Suponiendo $T \in \mathcal{L}(V)$. Un subespacio $U$ de $V$ es llamado \vocab{invariante} bajo $T$ si $u \in U$ implica $Tu \in U$.
+\end{definition}
+
+En la búsqueda del subespacio no trivial más simple posible (1-dimensional) nos encontramos con un $U$ definido como
+\begin{align*}
+  U = \{ \lambda v : \lambda \in \F \} = \vecspan(v)
+\end{align*}
+Vemos que si $U$ es invariante bajo un operador $T\in \mathcal{L}(V)$ entonces $Tv \in U$ y por tanto hay un escalar $\lambda \in \F$ que cumple
+\begin{align*}
+  Tv = \lambda v
+\end{align*}
+Esta ecuación es tan importante que el vector $v$ y el valor $\lambda$ reciben su propio nombre.
+
+\section{Vectores y valores propios}
+
+\begin{definition}[Valor Propio o Eigenvalue]
+  Suponiendo $T \in \mathcal{L}(V)$. Un número $\lambda \in \F$ es llamado \vocab{valor propio} de $T$ si existe $v \in V$ tal que $v \neq 0$ y $Tv = \lambda v$.
+\end{definition}
+
+Es condición indispensable que $v \neq 0$ porque cualquier escalar $\lambda \in \F$ cumple $T0 = \lambda 0$.
+
+\begin{definition}[Vector Propio o Eigenvector]
+  Suponiendo $T \in \mathcal{L}(V)$ y $\lambda \in \F$ es un valor propio de $T$. Un vector $v \in V$ es llamado \vocab{vector propio} de $T$ correspondiente a $\lambda$ si $v \neq 0$ y $Tv = \lambda v$.
+\end{definition}
+
+\begin{theorem}[Una lista de vectores propios es linealmente independiente]
+  \label{teo:indep}
+  Sea $T \in \mathcal{L}(V)$. Supón $\lambda_1, \ldots ,\lambda_m$ son distintos valores propios de $T$ y $v_1, \ldots , v_m$ son los correspondientes vectores propios. Entonces $v_1, \ldots ,v_m$ es linealmente independiente. 
+\end{theorem}
+
+\begin{proof}
+Suponeos que $v_1,\ldots ,v_m$ es linealmente dependiente. Siendo $k$ el entero positivo más pequeño tal que
+  \begin{align}
+  v_k \in span(v_1,\ldots ,v_{k-1}); \tag{5.11} \label{eq:5.11}
+  \end{align}
+  la existencia de $k$ con esta propiedad se sigue del \emph{Lema de Dependencia Lineal} (2.21). Por tanto existe $a_1,\ldots ,a_{k-1} \in \F$ tal que
+  \begin{align}
+    v_k = a_1 v_1 + \cdots + a_{k-1}v_{k-1}. \tag{5.12} \label{eq:5.12}
+  \end{align}
+  Applicando $T$ a ambos lados de la ecuación obtenemos
+\begin{align*}
+  \lambda_k v_k = a_1 \lambda_1 v_1 + \cdots + a_{k-1}\lambda_{k-1}v_{k-1}.
+\end{align*}
+Multiplicando ambos lados de \ref{eq:5.12} por $\lambda_k$ y luego restando la ecuación de arriba obtenemos
+\begin{align*}
+  0 = a_1 (\lambda_k - \lambda_1)v_1 + \cdots + a_{k-1}(\lambda_k - \lambda_{k-1})v_{k-1}.
+\end{align*}
+Dado que definimos $k$ como el menor entero positivo que satisface \ref{eq:5.11}, $v_1,\ldots ,v_{k-1}$ es linealmente independiente. Por tanto la ecuación de arriba implica que todas las $a$'s son 0. Sin embargo, esto significa que $v_k$ es igual a 0, contradiciendo nuestra hipotesis de que $v_k$ es un vector propio. Por tanto nuestra asunción de que $v_1, \ldots ,v_m$ es linealmente dependiente es falsa.
+\end{proof}
+
+\begin{theorem}
+Suponiendo $V$ finito-dimensional. Cada operador en $V$ tiene como mucho dim$V$ valores propios distintos.
+\end{theorem}
+
+\begin{proof}
+  Sea $T \in \mathcal{L}(V)$. Suponiendo que $\lambda_1, \ldots ,\lambda_m$ son distintos valores propios de $T$. Sea $v_1,\ldots ,v_m$ los correspondientes vectores propios. El teorema \ref{teo:indep} implica que la lista $v_1,\ldots ,v_m$ es linealmente independiente. Por tanto $m \leq$ dim$V$, como se deseaba.
+\end{proof}
+
+\[
+\underbrace{v_1,\ldots ,v_m}_{\text{lista linealmente independiente}}
+\]
+
+\begin{proposition}
+  Suponiendo que $V$ es finito-dimensional y $S,\ T \in \mathcal{L}(V)$. Probar que $ST$ es invertible si y solo si ambos $S$ y $T$ son invertibles.
+\end{proposition}
+\begin{proof}
+  ($\Leftarrow$) Suponiendo que $S$ y $T$ son invertibles, por el \emph{Problema 1}, $ST$ es también invertible.\\
+  ($\Rightarrow$) Suponiendo que $ST$ es invertible. Demostraremos que $T$ es inyectiva y $S$ sobreyectiva. Como $V$ es finito-dimensional, esto implicaría que tanto $S$ como $T$ son invertibles. Entonces suponiendo $v_1,v_2 \in V$ son tales que $Tv_1 = Tv_2$. Luego $(ST)(v_1) = (ST)(v_2)$, y como $ST$ es invertible (y por tanto inyectiva), debemos tener que $v_1 = v_2$, por tanto $T$ es inyectiva. Siguiente, suponiendo $v \in V$. Como $T^{-1}$ es sobreyectiva, existe $w \in V$ tal que $T^{-1}w = v$. Y como $ST$ es sobreyectiva, existe $p \in V$ tal que $(ST)(p) = w$. A esto le sigue que $(STT^{-1})(p) = T^{-1}(w)$, y por tanto $Sp = v$. Luego $S$ es sobreyectiva, completando la prueba.
+\end{proof}
+\end{document}
