@@ -21,6 +21,8 @@
 *.vrb
 *.pre
 
+.latexmkrc
+
 # Archivos temporales de editores
 *.bak
 *.backup
