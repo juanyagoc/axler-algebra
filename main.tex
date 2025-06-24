@@ -4,23 +4,23 @@
 \usepackage[fancyproofs,fancytheorems,noindent]{juan}
 \usetikzlibrary{graphs, arrows.meta, positioning}
 
-
 \title{Álgebra Lineal}
-\author{Juan Yago}
-\date{28 de Abril de 2025}
+\author{Juan Yago Castells}
+\date{\today}
 
 \begin{document}
 
-\textbf{Ejercicios Álgebra Lineal}
+\textbf{Álgebra Lineal}
 
-Espacios Vectoriales y Transformaciones Lineales
+Espacios Vectoriales, Transformaciones Lineales y Espacios con Producto Interno.
+
+Definiciones, teoremas y ejercicios extraidos de la cuarta edición del libro \textit{Linear Algebra Done Right} de Sheldon Axler.
 
 \section{Subespacios invariantes}%
 
 \begin{definition}[Subespacio invariante]
 Suponiendo $T \in \mathcal{L}(V)$. Un subespacio $U$ de $V$ es llamado \vocab{invariante} bajo $T$ si $u \in U$ implica $Tu \in U$.
 \end{definition}
-
 En la búsqueda del subespacio no trivial más simple posible (1-dimensional) nos encontramos con un $U$ definido como
 \begin{align*}
   U = \{ \lambda v : \lambda \in \F \} = \vecspan(v)
@@ -68,23 +68,107 @@ Multiplicando ambos lados de \ref{eq:5.12} por $\lambda_k$ y luego restando la e
 Dado que definimos $k$ como el menor entero positivo que satisface \ref{eq:5.11}, $v_1,\ldots ,v_{k-1}$ es linealmente independiente. Por tanto la ecuación de arriba implica que todas las $a$'s son 0. Sin embargo, esto significa que $v_k$ es igual a 0, contradiciendo nuestra hipotesis de que $v_k$ es un vector propio. Por tanto nuestra asunción de que $v_1, \ldots ,v_m$ es linealmente dependiente es falsa.
 \end{proof}
 
-\begin{theorem}
+\begin{theorem}[máximo de valores propios]
 Suponiendo $V$ finito-dimensional. Cada operador en $V$ tiene como mucho dim$V$ valores propios distintos.
 \end{theorem}
 
+%\begin{proof}
+%  Sea $T \in \mathcal{L}(V)$. Suponiendo que $\lambda_1, \ldots ,\lambda_m$ son distintos valores propios de $T$. Sea $v_1,\ldots ,v_m$ los correspondientes vectores propios. El teorema \ref{teo:indep} implica que la lista $v_1,\ldots ,v_m$ es linealmente independiente. Por tanto $m \leq$ dim$V$, como se deseaba.
+%\end{proof}
+%
+%\begin{proposition}[la invertibilidad se mantiene en la multiplicación]
+%  Suponiendo que $V$ es finito-dimensional y $S,\ T \in \mathcal{L}(V)$. Probar que $ST$ es invertible si y solo si ambos $S$ y $T$ son invertibles.
+%\end{proposition}
+%\begin{proof}
+%  ($\Leftarrow$) Suponiendo que $S$ y $T$ son invertibles, por el \emph{Problema 1}, $ST$ es también invertible.\\
+%  ($\Rightarrow$) Suponiendo que $ST$ es invertible. Demostraremos que $T$ es inyectiva y $S$ sobreyectiva. Como $V$ es finito-dimensional, esto implicaría que tanto $S$ como $T$ son invertibles. Entonces suponiendo $v_1,v_2 \in V$ son tales que $Tv_1 = Tv_2$. Luego $(ST)(v_1) = (ST)(v_2)$, y como $ST$ es invertible (y por tanto inyectiva), debemos tener que $v_1 = v_2$, por tanto $T$ es inyectiva. Siguiente, suponiendo $v \in V$. Como $T^{-1}$ es sobreyectiva, existe $w \in V$ tal que $T^{-1}w = v$. Y como $ST$ es sobreyectiva, existe $p \in V$ tal que $(ST)(p) = w$. A esto le sigue que $(STT^{-1})(p) = T^{-1}(w)$, y por tanto $Sp = v$. Luego $S$ es sobreyectiva, completando la prueba.
+%\end{proof}
+
+\subsection{Definiciones clave para el calculo de valores propios}
+
+\begin{definition}
+  Las siguientes afirmaciones para un operador $T\in \mathcal{L}(V)$, con $V$ de dimensión finita, y un escalar $\lambda \in \F$ son equivalentes:
+\begin{enumerate}[label=(\alph*)]
+    \item $\lambda$ es un valor propio de $T$;
+    \item $T - \lambda I$ no es inyectivo;
+    \item $T - \lambda I$ no es sobreyectivo;
+    \item $T - \lambda I$ no es invertible.
+\end{enumerate}
+\end{definition}
+
+\begin{fact}[Identidad de Euler]
+  La \emph{identidad de Euler} es la igualdad conocida como la más bonita entre todas las igualdades matemáticas. Tiene la siguiente forma
+  \[
+    e^{i\pi} + 1 = 0
+  \]
+  En ella se relacionan dos numeros irracionales como son $e$ y $\pi$ con la unidad compleja $i$ y los elementos neutros de la multiplicación y la suma, el 1 y el 0. Este es sin embargo un caso particular, su forma generalizada no tiene menos belleza
+  \[
+    e^{i\theta} = \cos{\theta} + i\sin{\theta}
+  \]
+  La importancia de una igualdad que relaciona un número tan presente en teoría de números y analisis matemtático como el número de Euler con las funciones trigonométricas básicas es inconmensurable y permite encontrar soluciones elegantes en cálculos complejos.
+\end{fact}
+
+\begin{theorem}[Teorema multiplos de 3]
+Para todo $n \in \Z$ se cumple que al menos uno de los factores de la expresión $n(n+1)(n+2)$ es divisible por 3. 
+\end{theorem}
 \begin{proof}
-  Sea $T \in \mathcal{L}(V)$. Suponiendo que $\lambda_1, \ldots ,\lambda_m$ son distintos valores propios de $T$. Sea $v_1,\ldots ,v_m$ los correspondientes vectores propios. El teorema \ref{teo:indep} implica que la lista $v_1,\ldots ,v_m$ es linealmente independiente. Por tanto $m \leq$ dim$V$, como se deseaba.
+Vamos a completar la prueba por inducción, es fácil ver que el teorema se cumple para el caso $n=1$, $1 \cdot 2 \cdot 3 = 3 \cdot (2)$. Ahora suponiendo que se cumple para $n$ demostraremos que lo hace también para $n+1$. Con la expresión
+\begin{align*}
+(n+1)(n+2)(n+3) = 3k
+\end{align*}
+Para cierto $k \in \Z$, desarrollando la expresión obtenemos
+\begin{align*}
+(n+1)(n+2)(n+3) &= \frac{3k}{n}(n+3) \\
+			    &= 3 \cdot \frac{k}{n}(n+3)
+\end{align*}
+Donde la primera igualdad se sostiene de la supocisión inductiva. Vemos que si $\frac{k(n+3)}{n}$ es un entero entonces hemos terminado la prueba y sabemos que es un entero ya que de la suposición inductiva sabemos que
+\begin{align*}
+\frac{k(n+3)}{n} &= \frac{kn+3k}{n} \\
+				 &= \frac{kn + n(n+1)(n+2)}{n} \\ 
+				 &= k + (n+1)(n+2)
+\end{align*}
+Por tanto $\frac{k(n+3)}{n}$ es un entero completando la prueba
 \end{proof}
 
+\newpage
+
+\section{Singular Value Decomposition (SVD)}
+
+\begin{definition}[SVD]
+  Suppose $T \in \mathcal{L}(V,W)$ and the positive singular values of $T$ are $s_1, \ldots , s_m$. Then there exist orthonormal lists $e_1, \ldots , e_m$ in $V$ and $f_1, \ldots ,$ in $W$ such that
+  \[
+    Tv = s_1\langle v, e_1 \rangle f_1 + \cdots + s_m\langle v,e_m \rangle f_m \tag{7.71} \label{eq:7.71}
+  \]
+for every $v \in V$.
+\end{definition}
+
+\begin{proof}
+  Let $s_1, \ldots ,s_m$ denote the singular values of $T$ (thus $n = dimV$). Because $T^* T$ is a positive operator, the spectral theorem implies that there exists an orthonormal basis $e_1, \ldots ,e_n$ of $V$ with
+  \[
+    T^* Te_k = s^2_k e_k \tag{7.72} \label{eq:7.72}
+  \]
+for each $k = 1, \ldots ,n$.
+
+\quad For each $k = 1,\ldots ,m$, let
 \[
-\underbrace{v_1,\ldots ,v_m}_{\text{lista linealmente independiente}}
+  f_k = \frac{Te_k}{s_k}. \tag{7.73} \label{eq:7.73}
 \]
+If $j,k \in {1,\ldots ,m}$, then
+\[
+  \langle f_j,f_k \rangle = \frac{1}{s_j s_k} \langle Te_j, Te_k \rangle = \frac{1}{s_j s_k}\langle e_j, T^* T e_k \rangle = \frac{s_k}{s_j}\langle e_j, e_k \rangle = \begin{cases} 0 \hspace{10px} if\ j \neq k,\\ 1 \hspace{10px} if\ j = k. \end{cases}
+\]
+Thus $f_1,\ldots ,f_m$ is an orthonormal list in $W$.
 
-\begin{proposition}
-  Suponiendo que $V$ es finito-dimensional y $S,\ T \in \mathcal{L}(V)$. Probar que $ST$ es invertible si y solo si ambos $S$ y $T$ son invertibles.
-\end{proposition}
-\begin{proof}
-  ($\Leftarrow$) Suponiendo que $S$ y $T$ son invertibles, por el \emph{Problema 1}, $ST$ es también invertible.\\
-  ($\Rightarrow$) Suponiendo que $ST$ es invertible. Demostraremos que $T$ es inyectiva y $S$ sobreyectiva. Como $V$ es finito-dimensional, esto implicaría que tanto $S$ como $T$ son invertibles. Entonces suponiendo $v_1,v_2 \in V$ son tales que $Tv_1 = Tv_2$. Luego $(ST)(v_1) = (ST)(v_2)$, y como $ST$ es invertible (y por tanto inyectiva), debemos tener que $v_1 = v_2$, por tanto $T$ es inyectiva. Siguiente, suponiendo $v \in V$. Como $T^{-1}$ es sobreyectiva, existe $w \in V$ tal que $T^{-1}w = v$. Y como $ST$ es sobreyectiva, existe $p \in V$ tal que $(ST)(p) = w$. A esto le sigue que $(STT^{-1})(p) = T^{-1}(w)$, y por tanto $Sp = v$. Luego $S$ es sobreyectiva, completando la prueba.
+\quad If $k \in {1,\ldots ,n}$ and $k > m$, then $s_k = 0$ and hence $T^* Te_k = 0$ (by \ref{7.72}), which implies that $Te_k = 0$.
+
+\quad Suppose $v\in V$. Then
+\begin{align*}
+  Tv &= T \left( \langle v,e_1 \rangle e_1 + \cdots + \langle v,e_n \rangle e_n \right) \\
+     &= \langle v,e_1 \rangle Te_1 + \cdots + \langle v,e_m \rangle Te_m \\
+     &= s_1 \langle v,e_1 \rangle f_1 + \cdots + s_m \langle v,e_m \rangle f_m,
+\end{align*}
+
+where the last index in the first line switched from $n$ ot $m$ in the secod line because $Te_k = 0$ if $k > m$ (as noted in the paragraph above) and the third line follows from \ref{eq:7.73}. The equation above is our desired result.
 \end{proof}
+
 \end{document}
