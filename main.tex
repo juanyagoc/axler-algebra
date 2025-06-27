@@ -135,9 +135,9 @@ Por tanto $\frac{k(n+3)}{n}$ es un entero completando la prueba
 \section{Singular Value Decomposition (SVD)}
 
 \begin{definition}[SVD]
-  Suppose $T \in \mathcal{L}(V,W)$ and the positive singular values of $T$ are $s_1, \ldots , s_m$. Then there exist orthonormal lists $e_1, \ldots , e_m$ in $V$ and $f_1, \ldots ,$ in $W$ such that
+  Suppose $T \in \mathcal{L}(V,W)$ and the positive singular values of $T$ are $s_1, \ldots , s_m$. Then there exist orthonormal lists $e_1, \ldots , e_m$ in $V$ and $f_1, \ldots ,f_m$ in $W$ such that
   \[
-    Tv = s_1\langle v, e_1 \rangle f_1 + \cdots + s_m\langle v,e_m \rangle f_m \tag{7.71} \label{eq:7.71}
+    Tv = s_1\langle v, e_1 \rangle f_1 + \cdots + s_m\langle v,e_m \rangle f_m \tag{3.11} \label{eq:3.11}
   \]
 for every $v \in V$.
 \end{definition}
@@ -145,13 +145,13 @@ for every $v \in V$.
 \begin{proof}
   Let $s_1, \ldots ,s_m$ denote the singular values of $T$ (thus $n = dimV$). Because $T^* T$ is a positive operator, the spectral theorem implies that there exists an orthonormal basis $e_1, \ldots ,e_n$ of $V$ with
   \[
-    T^* Te_k = s^2_k e_k \tag{7.72} \label{eq:7.72}
+    T^* Te_k = s^2_k e_k \tag{3.12} \label{eq:3.12}
   \]
 for each $k = 1, \ldots ,n$.
 
 \quad For each $k = 1,\ldots ,m$, let
 \[
-  f_k = \frac{Te_k}{s_k}. \tag{7.73} \label{eq:7.73}
+  f_k = \frac{Te_k}{s_k}. \tag{3.13} \label{eq:3.13}
 \]
 If $j,k \in {1,\ldots ,m}$, then
 \[
@@ -159,7 +159,7 @@ If $j,k \in {1,\ldots ,m}$, then
 \]
 Thus $f_1,\ldots ,f_m$ is an orthonormal list in $W$.
 
-\quad If $k \in {1,\ldots ,n}$ and $k > m$, then $s_k = 0$ and hence $T^* Te_k = 0$ (by \ref{7.72}), which implies that $Te_k = 0$.
+\quad If $k \in {1,\ldots ,n}$ and $k > m$, then $s_k = 0$ and hence $T^* Te_k = 0$ (by \ref{eq:3.12}), which implies that $Te_k = 0$.
 
 \quad Suppose $v\in V$. Then
 \begin{align*}
@@ -168,7 +168,57 @@ Thus $f_1,\ldots ,f_m$ is an orthonormal list in $W$.
      &= s_1 \langle v,e_1 \rangle f_1 + \cdots + s_m \langle v,e_m \rangle f_m,
 \end{align*}
 
-where the last index in the first line switched from $n$ ot $m$ in the secod line because $Te_k = 0$ if $k > m$ (as noted in the paragraph above) and the third line follows from \ref{eq:7.73}. The equation above is our desired result.
+where the last index in the first line switched from $n$ ot $m$ in the secod line because $Te_k = 0$ if $k > m$ (as noted in the paragraph above) and the third line follows from \ref{eq:3.13}. The equation above is our desired result.
 \end{proof}
 
+With the tool presented above we can arrive to a very useful concept in copression theory and computation, wich is the appoximation by linear maps with lower-dimensional range.
+
+\newpage
+
+\begin{definition}[best approximation by linear map whose range has dimension $\le k$]
+  Suppose $T \in \mathcal{L}(V,W)$ and $s_1 \geq \cdots \geq s_m$ are the positive singular values of $T$.
+
+  Suppose $1 \le k < m$. Then
+  \[
+    min\{ \| T-S\| :S \in \mathcal{L}(V,W)\ \text{and dim range } S \le k\} = s_{k+1}.
+  \]
+  Furthermore, if
+  \[
+    Tv = s_1\langle v,e_1\rangle f_1 + \cdots + s_m\langle v,e_m\rangle f_m
+  \]
+  is a singular value decomposition of $T$ and $T_k \in \mathcal{L}(V,W)$ is defined by
+  \[
+    T_k v = s_1\langle v,e_1\rangle f_1 + \cdots + s_k\langle v,e_k\rangle f_k
+  \]
+  for each $v\in V$, then dim range $T_k = k$ and $\| T-T_k\| = s_{k+1}$.
+\end{definition}
+\begin{proof}
+  If $v \in V$ then
+\begin{align*}
+{\|(T-T_k)v\|}^2 &= {\|s_{k+1}\langle v,e_{k+1}\rangle f_{k+1}+\cdots +s_m\langle v,e_m\rangle f_m \|}^2 \\
+               &= s_{k+1}^2{|\langle v,e_{k+1}\rangle |}^2 +\cdots +s_m^2{|\langle v,e_m\rangle |}^2 \\
+               &\le s_{k+1}^2\left( {|\langle v,e_{k+1}\rangle |}^2+\cdots + {|\langle v,e_m\rangle |}^2\right) \\
+               &\le s_{k+1}^2{\|v\|}^2.
+\end{align*}
+Thus $\|T-T_k\| \le s_{k+1}$. The equation $(T-T_k)e_{k+1} = s_{k+1}f_{k+1}$ now shows that $\|T-T_k\| \le s_{k+1}$.
+
+  Suppose $S \in \mathcal{L}(V,W)$ and dim range $S \le k$. Thus $Se_1,\ldots ,Se_{k+1}$, which is a list of length $k + 1$, is linearly dependent. Hence there exist $a_1,\ldots ,a_{k+1} \in \mathbb{F}$, not all 0, shut that
+\[
+  a_1Se_1 + \cdots + a_{k+1}Se_{k+1} = 0.
+\]
+Now $a_1Se_1 + \cdots + a_{k+1}Se_{k+1} \ne 0$ because $a_1,\ldots ,a_{k+1}$ are not 0. We have
+\begin{align*}
+\|(T - S)(a_1 e_1 + \cdots + a_{k+1} e_{k+1})\|^2 
+  &= \|T(a_1 e_1 + \cdots + a_{k+1} e_{k+1})\|^2 \\
+  &= \|s_1 a_1 f_1 + \cdots + s_{k+1} a_{k+1} f_{k+1}\|^2 \\
+  &= s_1^2 |a_1|^2 + \cdots + s_{k+1}^2 |a_{k+1}|^2 \\
+  &\ge s_{k+1}^2 (|a_1|^2 + \cdots + |a_{k+1}|^2) \\
+  &= s_{k+1}^2 \|a_1 e_1 + \cdots + a_{k+1} e_{k+1}\|^2.
+\end{align*}
+Because $a_1e_1 + \cdots + a_{k+1}e_{k+1} \ne 0$, the inequality above implies that
+\[
+  \|T-S\| \ge s_{k+1}.
+\]
+Thus $S = T_k$ minimizes $\|T-S\|$ among $S \in \mathcal{L}(V,W)$ with dim range $S \le k$.
+\end{proof}
 \end{document}
