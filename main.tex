@@ -98,18 +98,6 @@ Suponiendo $V$ finito-dimensional. Cada operador en $V$ tiene como mucho dim$V$ 
 \end{enumerate}
 \end{definition}
 
-\begin{fact}[Identidad de Euler]
-  La \emph{identidad de Euler} es la igualdad conocida como la más bonita entre todas las igualdades matemáticas. Tiene la siguiente forma
-  \[
-    e^{i\pi} + 1 = 0
-  \]
-  En ella se relacionan dos numeros irracionales como son $e$ y $\pi$ con la unidad compleja $i$ y los elementos neutros de la multiplicación y la suma, el 1 y el 0. Este es sin embargo un caso particular, su forma generalizada no tiene menos belleza
-  \[
-    e^{i\theta} = \cos{\theta} + i\sin{\theta}
-  \]
-  La importancia de una igualdad que relaciona un número tan presente en teoría de números y analisis matemtático como el número de Euler con las funciones trigonométricas básicas es inconmensurable y permite encontrar soluciones elegantes en cálculos complejos.
-\end{fact}
-
 \begin{theorem}[Teorema multiplos de 3]
 Para todo $n \in \Z$ se cumple que al menos uno de los factores de la expresión $n(n+1)(n+2)$ es divisible por 3. 
 \end{theorem}
@@ -131,8 +119,6 @@ Donde la primera igualdad se sostiene de la supocisión inductiva. Vemos que si 
 \end{align*}
 Por tanto $\frac{k(n+3)}{n}$ es un entero completando la prueba
 \end{proof}
-
-\newpage
 
 \section{Singular Value Decomposition (SVD)}
 
@@ -174,8 +160,6 @@ where the last index in the first line switched from $n$ ot $m$ in the secod lin
 \end{proof}
 
 With the tool presented above we can arrive to a very useful concept in copression theory and computation, wich is the appoximation by linear maps with lower-dimensional range.
-
-\newpage
 
 \begin{definition}[best approximation by linear map whose range has dimension $\le k$]
   Suppose $T \in \mathcal{L}(V,W)$ and $s_1 \geq \cdots \geq s_m$ are the positive singular values of $T$.
@@ -223,4 +207,21 @@ Because $a_1e_1 + \cdots + a_{k+1}e_{k+1} \ne 0$, the inequality above implies t
 \]
 Thus $S = T_k$ minimizes $\|T-S\|$ among $S \in \mathcal{L}(V,W)$ with dim range $S \le k$.
 \end{proof}
+\begin{problem}
+  Fix $u,x \in V$ with $u \ne 0$. Define $T \in \mathcal{L}(V)$ by $Tv = \langle v,u\rangle x$ for every $v \in V$.
+
+  Prove that
+  \[
+  \sqrt{T^*T}v = \frac{\|x\|}{\|u\|}\langle v,u\rangle u
+  \]
+  for every $v \in V$.
+\end{problem}
+\begin{answer*}
+  fetch
+
+Adios
+\end{answer*}
+\begin{claim*}
+  Such function can only be $f(x) = 0$
+\end{claim*}
 \end{document}
