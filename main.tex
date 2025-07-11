@@ -216,12 +216,56 @@ Thus $S = T_k$ minimizes $\|T-S\|$ among $S \in \mathcal{L}(V,W)$ with dim range
   \]
   for every $v \in V$.
 \end{problem}
-\begin{answer*}
-  fetch
 
-Adios
-\end{answer*}
-\begin{claim*}
-  Such function can only be $f(x) = 0$
-\end{claim*}
+\newpage
+
+\section{QR Decomposition using Householder reflections}
+
+\begin{definition}[Householder operator]
+The Householder operator $H$ in a inner product space $V$ represents a reflectionof a given vector $x$ over a plane perpendicular to a unitary vector $u$, wich means $\| u\| = 1$. so H applied to x has de form:
+\[
+  H(x) = x - 2\text{proj}_u(x)
+\]
+  Knowing the norm of $u$ is 1 and that $u^*$ represents the complex conjugate which in the real field $\mathbb{R}$ equals the transpose $u^T$ we end up with
+\[
+  H(x) = x - 2 u^* x u = (I - 2 u^* u)x
+\]
+With this we see that the Householder matrix $H$ representing a reflection over a normal vectoro $u$ has the form
+\[
+  H = I - 2uu^*
+\]
+\end{definition}
+
+\begin{definition}[QR Decomposition]
+  Given a matrix $A$ with $m$ rows and $n$ columns. Then there exists a unique way of decomposing A in a combination of a unitary matrix named $Q$ and an upper triangular matrix $R$, so A can be expressed in the form
+  \[
+  A = QR
+  \]
+\end{definition}
+\begin{proof}
+  Suppose A is fomed with the list $v_1,\ldots ,v_n$ by the Gram-Schmidt prodedure we can write any vector $v$ of the vector space $V$ in the form
+  \[
+  v = \langle v_1, e_1\rangle e_1 + \cdots + \langle v_n, e_n\rangle e_n
+  \]
+  where $e_1, \ldots ,e_n$ is an orthonormal list that spans $V$.
+
+  Constructing $Q$ with the column vectors of this orthonormal basis say
+  \[
+  Q = \left( \begin{matrix}
+                e_1 & e_2 & \cdots & e_n \\
+             \end{matrix}
+      \right)
+  \]
+  This $Q$ sqare matrix is unitary by construction with dimensions $n \times n$.
+
+  Then, multiplying $Q$ by $R$ upper triangular with dimensions $n \times m$ formed by the inner products of each component of $v$ with its coresponding orthonormal vector the multiplication $QR$ gives us the Gram-Schmidt procedure.
+\end{proof}
+
+Now we can see that the unitary matrix $Q$ can be formed multiplying a series of Householder operators say $H_k$ with the objetive of transforming a matrix $A$ into a triangular matrix by a series of this Householder reflections in the form
+\[
+H_k \cdots H_1 A = R
+\]
+and therefore $Q = (H_k \cdots H_1)^{-1} = H_k^* \cdots H_1^*$.
+
+The second equality holds because heach $H_j$ is itself unitary and the composition of unitary matrices gives a unitary matrix in this case $Q$.
 \end{document}
