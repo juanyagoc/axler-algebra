@@ -2,6 +2,8 @@
 
 \documentclass{scrartcl}
 \usepackage[fancyproofs,fancytheorems,noindent]{juan}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 \usetikzlibrary{graphs, arrows.meta, positioning}
 
 \title{Linear Algebra}
@@ -313,4 +315,32 @@ And with this we se that
 which is a scalar multiple of a canonical vector as we desired.
 \end{example}
 This vector reflection can be applied to not just a single vector but to an entire matrix as it is formed with vectors allowing us to transform a given matrix into a lower triangular matrix.
+
+  In the Golub and Van Loan 'Matrix Computations' book there is an implementation of this reflection that ensures no overflow neither underflow and excelent numerical stability without sacrificing that much eficiency. In asimpthotic notation whis algorithm runs in $\mathcal{O}(n)$ of time worst case, leaving the computation of the entire Householder matrix a complexity of $\mathcal{O}(n^3)$. The speudocode algorithm looks like this:
+
+\begin{algorithm}[H]
+    \caption{Householder reflection algorithm from 'Matrix Computations'}
+    \label{alg:householder_reflection}
+    \begin{algorithmic}[0]
+        \REQUIRE Input vector $x$
+        \ENSURE Transformed vector $v$ and $\beta$ scalar
+
+        \STATE $m = length(x),\ \sigma = x[2:m]^T x[2:m],\ v = \begin{pmatrix} 1 \\ x[2:m] \end{pmatrix}$
+        \IF{$\sigma = 0$ and $x_0 \ge 0$}
+            \STATE $\beta = 0$
+        \ELSIF{$\sigma = 0$ and $x_0 < 0$}
+            \STATE $\beta = -2$
+        \ELSE
+            \STATE $\mu = \sqrt{x_0^2 + \sigma}$
+            \IF{$x_0 \le 0$}
+                \STATE $v_0 = x_0 - \mu$
+            \ELSE
+                \STATE $v_0 = -\sigma / (x_0 + \mu)$
+            \ENDIF
+        \ENDIF
+
+        \STATE \textbf{return} $v$, $\beta$
+    \end{algorithmic}
+\end{algorithm}
+
 \end{document}
