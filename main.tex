@@ -343,4 +343,26 @@ This vector reflection can be applied to not just a single vector but to an enti
     \end{algorithmic}
 \end{algorithm}
 
+Once the Householder vector is obtained the matrix $H_k$ is applied to the original matrix $A$ making the kth column be all zeros bellow the diagonal like so:
+\[ 
+    H_1 H_2 A = \begin{pmatrix}
+   \times & \times     & \times & \times & & \times \\
+        0 &     \times & \times & \times & & \times \\
+        0 & 0 & \times & \times & \cdots & \times \\
+        0 & 0 & \times & \times &        & \times \\
+          &   & \vdots &        & \ddots & \vdots \\
+        0 & 0 & \times & \times & \cdots & \times \\
+                \end{pmatrix}
+\]
+With enough $H$ operators the matrix $A$ will transform into the desired upper diagonal $R$ matrix now on how to compute the matrix multiplications presented above we follow the methods from Golub book.
+
+Now, instead of computing an $H_k$ for each Householder vector we'll use the blocking method which consists on dividing the original matrix $A$ into blocks, computing the Householder vectors of each block and instead of forming the $H$ matrix as we know by the formula
+\[
+H = I - 2uu^T
+\]
+we will acumulate those transformed vectors on clusters of size $r$ and form the matrices
+\[
+H = I - YTY^T
+\]
+With $T$ upper triangular (in Golub's book is presented as $I - WY^T$)
 \end{document}
