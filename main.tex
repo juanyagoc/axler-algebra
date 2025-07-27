@@ -365,4 +365,52 @@ we will acumulate those transformed vectors on clusters of size $r$ and form the
 H = I - YTY^T
 \]
 With $T$ upper triangular (in Golub's book is presented as $I - WY^T$)
+
+The full algorithm that computes the householder matrices using blocking looks like this
+
+\begin{algorithm}[H]
+\caption{Block Householder QR Factorization without Explicit Q}
+\begin{algorithmic}[0]
+\REQUIRE $A \in \mathbb{R}^{m \times n}$, block size $r$
+\ENSURE Upper triangular matrix $R$, and block reflectors $\{W_k, Y_k\}$ such that $A = QR$, $Q = \prod_k (I - W_k Y_k^T)$
+\STATE $a \leftarrow 1$
+\STATE $k \leftarrow 0$
+\WHILE{$a \leq n$}
+    \STATE $t \leftarrow \min(a + r - 1, n)$
+    \STATE $k \leftarrow k + 1$
+
+    \COMMENT{Panel factorization (Householder QR on columns $a$ to $t$)}
+    \FOR{$j = a$ to $t$}
+        \STATE $[v, \beta] \leftarrow \textsc{House}(A(j:m, j))$
+        \STATE $A(j:m, j:t) \leftarrow (I - \beta v v^T) A(j:m, j:t)$
+        \IF{$j < m$}
+            \STATE $A(j+1:m, j) \leftarrow v(2:\text{end})$
+        \ENDIF
+        \STATE Store $v$, $\beta$ for $j$
+    \ENDFOR
+
+    \COMMENT{Build compact WY representation: $I - W_k Y_k^T$}
+    \STATE Initialize $Y_k, W_k$ as empty matrices
+    \FOR{$j = 1$ to $t - a + 1$}
+        \STATE Reconstruct $v_j$ and $\beta_j$ from storage
+        \IF{$j = 1$}
+            \STATE $Y_k(:,1) \leftarrow v_j$
+            \STATE $W_k(:,1) \leftarrow \beta_j v_j$
+        \ELSE
+            \STATE $z \leftarrow \beta_j (I - W_k(:,1:j-1) Y_k(:,1:j-1)^T) v_j$
+            \STATE $W_k(:,j) \leftarrow z$
+            \STATE $Y_k(:,j) \leftarrow v_j$
+        \ENDIF
+    \ENDFOR
+
+    \COMMENT{Apply block reflector to trailing matrix}
+    \STATE $A(a:m, t+1:n) \leftarrow A(a:m, t+1:n) - W_k (Y_k^T A(a:m, t+1:n))$
+
+    \STATE $a \leftarrow t + 1$
+\ENDWHILE
+
+\STATE $R \leftarrow \text{upper triangular part of modified } A$
+\end{algorithmic}
+\end{algorithm}
+
 \end{document}
