@@ -221,7 +221,7 @@ Thus $S = T_k$ minimizes $\|T-S\|$ among $S \in \mathcal{L}(V,W)$ with dim range
 
 \newpage
 
-\section{QR Decomposition using Householder reflections}
+\section{QR Decomposition and Householder reflections}
 
 \begin{definition}[Householder operator]
 The Householder operator $H$ in a inner product space $V$ represents a reflectionof a given vector $x$ over a plane perpendicular to a unitary vector $u$, wich means $\| u\| = 1$. so H applied to x has de form:
@@ -412,5 +412,57 @@ The full algorithm that computes the householder matrices using blocking looks l
 \STATE $R \leftarrow \text{upper triangular part of modified } A$
 \end{algorithmic}
 \end{algorithm}
+
+\begin{itemize}
+    \item Introducción
+
+   - Motivación (¿por qué SVD? ¿por qué en C? ¿por qué sin librerías?)
+
+    \item Fundamentos teóricos
+
+   - Definición de SVD \\
+   - Algoritmo clásico: bidiagonalización + QR \\
+   - Descomposición QR (Householder, Givens) \\
+
+    \item Implementación
+
+   - Detalles técnicos (formato de datos, precisión, etc.) \\
+   - Algoritmos paso a paso en C \\
+   - Análisis de coste computacional \\
+
+    \item Aplicación práctica
+
+   - Compresión de imagen / reducción de ruido \\
+   - Comparativa visual y métrica \\
+
+    \item Evaluación
+
+   - Comparación contra LAPACK o OpenCV \\
+   - Tiempo, precisión, estabilidad \\
+
+    \item Conclusiones y trabajo futuro
+\end{itemize}
+
+\begin{itemize}
+    \item Temas posibles: \\
+	Acceso a memoria optimizado (row-major vs column-major). \\
+	Uso de estructuras compactas (evitar almacenamiento redundante). \\
+	Implementación en punto flotante doble vs simple. \\
+    Comparación de coste real frente a \textit{dgesvd} de LAPACK. \\
+	Implementación de QR bloqueado (siguiendo Golub) para rendimiento. \\
+	Posible uso de instrucciones SIMD o paralelismo con OpenMP. \\
+\end{itemize}
+
+\section{Wilkinson Shift}
+In the Wilkinson shift we don't compute the QR decomposition over the hermitian matrix $M$ but over its shifted version $M - \mu I$, where $\mu$ is obtained with the following expression:
+\[
+    \mu = b - \frac{\text{sign}(\delta)}{|\delta| + \sqrt{\delta^2 + \beta^2}} \cdot \beta^2
+\]
+
+Here $b$ is the last elemt of the diagonal of the $M$ matrix, so $b = M_{n-1,n-1}$, then
+\[
+\delta = \frac{M_{n-2,n-2} + M_{n-1,n-1}}{2}
+\]
+and $\beta = M_{n-2,n-1}$.
 
 \end{document}
