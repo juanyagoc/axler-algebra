@@ -413,45 +413,46 @@ The full algorithm that computes the householder matrices using blocking looks l
 \end{algorithmic}
 \end{algorithm}
 
-\begin{itemize}
-    \item Introducción
+%\begin{itemize}
+%    \item Introducción
+%
+%   - Motivación (¿por qué SVD? ¿por qué en C? ¿por qué sin librerías?)
+%
+%    \item Fundamentos teóricos
+%
+%   - Definición de SVD \\
+%   - Algoritmo clásico: bidiagonalización + QR \\
+%   - Descomposición QR (Householder, Givens) \\
+%
+%    \item Implementación
+%
+%   - Detalles técnicos (formato de datos, precisión, etc.) \\
+%   - Algoritmos paso a paso en C \\
+%   - Análisis de coste computacional \\
+%
+%    \item Aplicación práctica
+%
+%   - Compresión de imagen / reducción de ruido \\
+%   - Comparativa visual y métrica \\
+%
+%    \item Evaluación
+%
+%   - Comparación contra LAPACK o OpenCV \\
+%   - Tiempo, precisión, estabilidad \\
+%
+%    \item Conclusiones y trabajo futuro
+%\end{itemize}
+%
+%\begin{itemize}
+%    \item Temas posibles: \\
+%	Acceso a memoria optimizado (row-major vs column-major). \\
+%	Uso de estructuras compactas (evitar almacenamiento redundante). \\
+%	Implementación en punto flotante doble vs simple. \\
+%    Comparación de coste real frente a \textit{dgesvd} de LAPACK. \\
+%	Implementación de QR bloqueado (siguiendo Golub) para rendimiento. \\
+%	Posible uso de instrucciones SIMD o paralelismo con OpenMP. \\
+%\end{itemize}
 
-   - Motivación (¿por qué SVD? ¿por qué en C? ¿por qué sin librerías?)
-
-    \item Fundamentos teóricos
-
-   - Definición de SVD \\
-   - Algoritmo clásico: bidiagonalización + QR \\
-   - Descomposición QR (Householder, Givens) \\
-
-    \item Implementación
-
-   - Detalles técnicos (formato de datos, precisión, etc.) \\
-   - Algoritmos paso a paso en C \\
-   - Análisis de coste computacional \\
-
-    \item Aplicación práctica
-
-   - Compresión de imagen / reducción de ruido \\
-   - Comparativa visual y métrica \\
-
-    \item Evaluación
-
-   - Comparación contra LAPACK o OpenCV \\
-   - Tiempo, precisión, estabilidad \\
-
-    \item Conclusiones y trabajo futuro
-\end{itemize}
-
-\begin{itemize}
-    \item Temas posibles: \\
-	Acceso a memoria optimizado (row-major vs column-major). \\
-	Uso de estructuras compactas (evitar almacenamiento redundante). \\
-	Implementación en punto flotante doble vs simple. \\
-    Comparación de coste real frente a \textit{dgesvd} de LAPACK. \\
-	Implementación de QR bloqueado (siguiendo Golub) para rendimiento. \\
-	Posible uso de instrucciones SIMD o paralelismo con OpenMP. \\
-\end{itemize}
 
 \section{Wilkinson Shift}
 In the Wilkinson shift we don't compute the QR decomposition over the hermitian matrix $M$ but over its shifted version $M - \mu I$, where $\mu$ is obtained with the following expression:
@@ -465,4 +466,17 @@ Here $b$ is the last elemt of the diagonal of the $M$ matrix, so $b = M_{n-1,n-1
 \]
 and $\beta = M_{n-2,n-1}$.
 
+\section{Why column-major?}
+
+The complete implementation in C of the SVD algorithm wich you can visit at my Github \href{https://github.com/juanyagoc/algebra-svd}{repository} utilizes a \emph{column-major} order for storing the matrices, which means is stored prioricing columns which means the matrix:
+\[
+ \begin{pmatrix}
+    1 & 2 & 3 \\
+    4 & 5 & 6 \\
+    7 & 8 & 9
+ \end{pmatrix} \ \text{is stored as} \ \ \{1,4,7,2,5,8,3,6,9\}
+\]
+Note that this is not the normal way C stores matrices which is the \emph{row-major} orther, but it can be seen as storing the transposed matrix.
+
+The reason for bothering in changing the normal way of storing the data is not a minor thing, in fact many linear algebra libraries such as LAPACK use this \emph{column-major} the reason for this is that the data is visited vertically as the program works with the matrices, that is because the vectors are represented as columns for building the matrices so we prevent unnecessary cache misses that will slow the calculations by improving the \emph{spatial locality}. With this we obtain an improvement on the CPU cache usage on the algorithms were operations are made column by column, in our case the QR decomposition and the SVD.
 \end{document}
