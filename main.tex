@@ -1,10 +1,9 @@
-% !TEX TS-program = latexmk
-
 \documentclass{scrartcl}
 \usepackage[fancyproofs,fancytheorems,noindent]{juan}
 \usepackage{algorithm}
 \usepackage{algorithmic}
-\usetikzlibrary{graphs, arrows.meta, positioning}
+\usetikzlibrary{graphs, arrows.meta, positioning, mindmap}
+
 
 \title{Linear Algebra}
 \author{Juan Yago Castells}
@@ -479,4 +478,34 @@ The complete implementation in C of the SVD algorithm wich you can visit at my G
 Note that this is not the normal way C stores matrices which is the \emph{row-major} orther, but it can be seen as storing the transposed matrix.
 
 The reason for bothering in changing the normal way of storing the data is not a minor thing, in fact many linear algebra libraries such as LAPACK use this \emph{column-major} the reason for this is that the data is visited vertically as the program works with the matrices, that is because the vectors are represented as columns for building the matrices so we prevent unnecessary cache misses that will slow the calculations by improving the \emph{spatial locality}. With this we obtain an improvement on the CPU cache usage on the algorithms were operations are made column by column, in our case the QR decomposition and the SVD.
+
+% Plantilla para representar arrays y punteros
+\begin{center}
+\begin{tikzpicture}[every node/.style={draw, minimum size=0.8cm, align=center}]
+    \node               (a0) at (0,0)   {1};
+    \node[fill=gray!50] (a1) at (0.8,0) {2};
+    \node               (a2) at (1.6,0) {3};
+    \node[fill=gray!50] (a3) at (2.4,0) {4};
+    \node               (a4) at (3.2,0) {5};
+    \node               (a5) at (4,0)   {6};
+    \node               (a6) at (4.8,0) {7};
+    \draw[->, thick] (0.8,-1) -- (a1.south |- 0,-0.5);
+    \draw[->, thick] (2.4,-1) -- (a3.south |- 0,-0.5);
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}
+La notación para un homomorfismo $h$ de un lenguaje formal $\Sigma^*$ a otro $\Delta^*$ es la siguiente:
+\[
+h : \Sigma^* \longrightarrow \Delta^*
+\]
+Por ejemplo, definiendo de forma recursiva la extensión $h$:
+\[
+\begin{cases}
+    h(\lambda) = \lambda \\
+    h(xa) = h(x)h(a)
+\end{cases}
+\]
+\end{definition}
 \end{document}
+
