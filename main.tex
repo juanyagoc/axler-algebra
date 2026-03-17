@@ -2,6 +2,7 @@
 \usepackage[fancyproofs,fancytheorems,noindent]{juan}
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage{bookmark}
 \usetikzlibrary{graphs, arrows.meta, positioning, mindmap}
 
 
@@ -121,7 +122,7 @@ Donde la primera igualdad se sostiene de la supocisión inductiva. Vemos que si 
 Por tanto $\frac{k(n+3)}{n}$ es un entero completando la prueba
 \end{proof}
 
-\section{Singular Value Decomposition (SVD)}
+\section{Singular Value Decomposition (SVD)} %
 
 \begin{definition}[SVD]
   Suppose $T \in \mathcal{L}(V,W)$ and the positive singular values of $T$ are $s_1, \ldots , s_m$. Then there exist orthonormal lists $e_1, \ldots , e_m$ in $V$ and $f_1, \ldots ,f_m$ in $W$ such that
@@ -487,14 +488,14 @@ The reason for bothering in changing the normal way of storing the data is not a
     \node               (a2) at (1.6,0) {3};
     \node[fill=gray!50] (a3) at (2.4,0) {4};
     \node               (a4) at (3.2,0) {5};
-    \node               (a5) at (4,0)   {6};
+    \node               (a5) at (4.0,0) {6};
     \node               (a6) at (4.8,0) {7};
     \draw[->, thick] (0.8,-1) -- (a1.south |- 0,-0.5);
     \draw[->, thick] (2.4,-1) -- (a3.south |- 0,-0.5);
 \end{tikzpicture}
 \end{center}
 
-\begin{definition}
+\begin{definition}[Hola]
 La notación para un homomorfismo $h$ de un lenguaje formal $\Sigma^*$ a otro $\Delta^*$ es la siguiente:
 \[
 h : \Sigma^* \longrightarrow \Delta^*
