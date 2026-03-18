@@ -3,7 +3,7 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{bookmark}
-\usetikzlibrary{graphs, arrows.meta, positioning, mindmap}
+\usetikzlibrary{graphs, arrows.meta, positioning, mindmap, trees}
 
 
 \title{Linear Algebra}
@@ -484,9 +484,9 @@ The reason for bothering in changing the normal way of storing the data is not a
 \begin{center}
 \begin{tikzpicture}[every node/.style={draw, minimum size=0.8cm, align=center}]
     \node               (a0) at (0,0)   {1};
-    \node[fill=gray!50] (a1) at (0.8,0) {2};
+    \node[fill=red!50]  (a1) at (0.8,0) {2};
     \node               (a2) at (1.6,0) {3};
-    \node[fill=gray!50] (a3) at (2.4,0) {4};
+    \node[fill=blue!50] (a3) at (2.4,0) {4};
     \node               (a4) at (3.2,0) {5};
     \node               (a5) at (4.0,0) {6};
     \node               (a6) at (4.8,0) {7};
@@ -508,5 +508,49 @@ Por ejemplo, definiendo de forma recursiva la extensión $h$:
 \end{cases}
 \]
 \end{definition}
+
+\begin{center}
+    Flow de Ricci
+\end{center}
+\[
+    \frac{\partial}{\partial s} G_s = -2\operatorname{Ric}^{G_s} + \frac{2}{n}\frac{\int_M R^{G_s}\,d\mu_{G_s}}{\int_M d\mu_{G_s}}G_s
+\]
+
+\newpage
+\begin{center}
+    Ejemplo de árbol Rojo-Negro según el esquema de CLRS
+
+\begin{tikzpicture}[
+    every node/.style={circle, draw=black, minimum size=6mm},
+    edge from parent/.style={draw, thin},
+    level distance=11mm,
+    sibling distance=20mm,
+    level 1/.style={sibling distance=28mm},
+    level 2/.style={sibling distance=18mm},
+    level 3/.style={sibling distance=9mm},
+    r/.style={fill=red!80,draw=red,text=white},
+    n/.style={fill=black!80,draw=black,text=white},
+    nil/.style={draw=none,fill=white,draw=white}
+]
+\node[n] {5}
+child {node[r] {2}
+    child {node[n] {1}
+        child {node[nil]{Nil}}
+        child {node[nil]{Nil}}
+    }
+    child {node[n] {4}
+        child {node[r] {3}
+            child {node[nil]{Nil}}
+            child {node[nil]{Nil}}
+        }
+        child {node[nil]{Nil}}
+    }
+}
+child {node[n] {6}
+    child {node[nil]{Nil}}
+    child {node[nil]{Nil}}
+};
+\end{tikzpicture}
+\end{center}
 \end{document}
 
