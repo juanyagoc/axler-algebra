@@ -17,8 +17,7 @@
 
 Vector Spaces, Linear Transformations and Innver Product Spaces.
 
-Definitions, theorems and exercises from the fourth edition of the book
-\textit{Linear Algebra Done Right} by Sheldon Axler.
+Definitions, theorems and exercises from the fourth edition of the book \textit{Linear Algebra Done Right} by Sheldon Axler. As well as some computational linear algebra concepts and tikz tests.
 
 \section{Subespacios invariantes}%
 
@@ -319,7 +318,7 @@ This vector reflection can be applied to not just a single vector but to an enti
   In the Golub and Van Loan 'Matrix Computations' book there is an implementation of this reflection that ensures no overflow neither underflow and excelent numerical stability without sacrificing that much eficiency. In asimpthotic notation whis algorithm runs in $\mathcal{O}(n)$ of time worst case, leaving the computation of the entire Householder matrix a complexity of $\mathcal{O}(n^3)$. The speudocode algorithm looks like this:
 
 \begin{algorithm}[H]
-    \caption{Householder reflection algorithm from 'Matrix Computations'}
+    \caption{Householder reflection algorithm from `Matrix Computations'}
     \label{alg:householder_reflection}
     \begin{algorithmic}[0]
         \REQUIRE Input vector $x$
@@ -528,8 +527,8 @@ Por ejemplo, definiendo de forma recursiva la extensión $h$:
     level 1/.style={sibling distance=28mm},
     level 2/.style={sibling distance=18mm},
     level 3/.style={sibling distance=9mm},
-    r/.style={fill=red!80,draw=red,text=white},
-    n/.style={fill=black!80,draw=black,text=white},
+    r/.style={fill=red!75,draw=red,text=white},
+    n/.style={fill=black!75,draw=black,text=white},
     nil/.style={draw=none,fill=white,draw=white}
 ]
 \node[n] {5}
@@ -550,6 +549,26 @@ child {node[n] {6}
     child {node[nil]{Nil}}
     child {node[nil]{Nil}}
 };
+\end{tikzpicture}
+\end{center}
+
+\begin{center}
+\begin{tikzpicture}
+    \def\r{2}
+    \draw[red, line width=1.5pt] (0,0) circle (\r);
+    \draw[blue, line width=1.5pt]
+        (0:\r)
+        \foreach \i in {60,120,180,240,300} {
+            -- (\i:\r)
+        } -- cycle;
+    \foreach \i [count=\n from 0] in {0,60,120,180,240,300} {
+        \fill[black] (\i:\r) circle (2.5pt);
+        \ifnum\n=0
+            \node at (\i:\r + 2.7cm) {$Z^{\n}=1$};
+        \else
+            \node at (\i:\r + 2.4cm) {$Z^{\n}$};
+        \fi
+    }
 \end{tikzpicture}
 \end{center}
 \end{document}
